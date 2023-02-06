@@ -271,7 +271,7 @@ bot.command('stats', async ctx => {
         let nyumbusH = await nyumbuModel.countDocuments({refferer: "Helen"})
         let nyumbusR = await nyumbuModel.countDocuments({refferer: "Regina"})
         let jumla = nyumbusH + nyumbusR
-        await ctx.reply(`Mpaka sasa kwenye Database yetu tuna nyumbu <b>${nyumbusH.toLocaleString('en-us')}</b> wa Helen na nyumbu <b>${nyumbusR.toLocaleString('en-us')}</b> wa Regina.\n\nJumla kuu ni <b>${jumla.toLocaleString('en-us')}</b>`, {parse_mode: 'HTML'})
+        await ctx.reply(`Mpaka sasa kwenye Database yetu tuna nyumbu <b>${nyumbusH.toLocaleString('en-us')}</b> wa Helen na nyumbu <b>${nyumbusR.toLocaleString('en-us')}</b> wa Regina.\n\nJumla kuu ni <b>${jumla.toLocaleString('en-us')}</b>. \n\nWote unique, kama tayari mmoja wetu kamuongeza mimi simuongezi.`, {parse_mode: 'HTML'})
     } catch (err) {
         console.log(err.message)
     }
@@ -353,41 +353,42 @@ bot.command('wakubwa', async ctx => {
     }
 })
 
-bot.on('chat_join_request', async ctx => {
-    try {
+//leave this for Regina
+// bot.on('chat_join_request', async ctx => {
+//     try {
 
-        let username = ctx.chatJoinRequest.from.first_name
-        let chatid = ctx.chatJoinRequest.from.id
-        let cha_id = ctx.chatJoinRequest.chat.id
-        let title = ctx.chatJoinRequest.chat.title
-        let info = await bot.telegram.getChat(cha_id)
-        let invite_link = info.invite_link
+//         let username = ctx.chatJoinRequest.from.first_name
+//         let chatid = ctx.chatJoinRequest.from.id
+//         let cha_id = ctx.chatJoinRequest.chat.id
+//         let title = ctx.chatJoinRequest.chat.title
+//         let info = await bot.telegram.getChat(cha_id)
+//         let invite_link = info.invite_link
 
-        let nyumbu = await nyumbuModel.findOne({ chatid })
-        if (!nyumbu) {
-            await nyumbuModel.create({ chatid, username, blocked: false, refferer: "Helen" })
-        }
-        await bot.telegram.approveChatJoinRequest(cha_id, chatid)
-        await bot.telegram.sendMessage(chatid, `Hi <b>${username}</b> \nHongera 🎉 ombi lako la kujiunga na channel yetu <b>${title}</b> limekubaliwa, karibu sana.`, {
-            parse_mode: 'HTML',
-            reply_markup: {
-                inline_keyboard: [[{ text: 'Ingia sasa', url: invite_link }]]
-            }
-        })
+//         let nyumbu = await nyumbuModel.findOne({ chatid })
+//         if (!nyumbu) {
+//             await nyumbuModel.create({ chatid, username, blocked: false, refferer: "Helen" })
+//         }
+//         await bot.telegram.approveChatJoinRequest(cha_id, chatid)
+//         await bot.telegram.sendMessage(chatid, `Hi <b>${username}</b> \nHongera 🎉 ombi lako la kujiunga na channel yetu <b>${title}</b> limekubaliwa, karibu sana.`, {
+//             parse_mode: 'HTML',
+//             reply_markup: {
+//                 inline_keyboard: [[{ text: 'Ingia sasa', url: invite_link }]]
+//             }
+//         })
 
-    } catch (err) {
-        console.log(err)
-        if (!err.message) {
-            if (!err.description.includes('bot was blocked') && !err.description.includes('USER_ALREADY')) {
-                await bot.telegram.sendMessage(imp.shemdoe, err.description)
-            }
-        } else {
-            if (!err.message.includes('bot was blocked') && !err.message.includes('USER_ALREADY')) {
-                await bot.telegram.sendMessage(imp.shemdoe, err.message)
-            }
-        }
-    }
-})
+//     } catch (err) {
+//         console.log(err)
+//         if (!err.message) {
+//             if (!err.description.includes('bot was blocked') && !err.description.includes('USER_ALREADY')) {
+//                 await bot.telegram.sendMessage(imp.shemdoe, err.description)
+//             }
+//         } else {
+//             if (!err.message.includes('bot was blocked') && !err.message.includes('USER_ALREADY')) {
+//                 await bot.telegram.sendMessage(imp.shemdoe, err.message)
+//             }
+//         }
+//     }
+// })
 
 bot.on('text', async ctx => {
     try {
