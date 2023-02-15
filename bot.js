@@ -144,9 +144,10 @@ bot.command('/mkeka', async ctx => {
                 odds = (odds * m.odds).toFixed(2)
             }
 
-            let gsb = 'https://track.africabetpartners.com/visit/?bta=35468&nci=5439'
+            let gsb = 'https://track.africabetpartners.com/visit/?bta=35468&brand=gsb'
+            let ke = `https://go.aff.10betafrica.com/m2iyvtvv`
 
-            let finaText = txt + `<b>🔥 Total Odds: ${odds}</b>\n\nOption hizi zinapatikana Gal Sport Betting, kama bado huna account,\n\n<b>👤 Jisajili Hapa</b>\n<a href="${gsb}">https://m.gsb.co.tz/register\nhttps://m.gsb.co.tz/register</a>\n\n<u>Msaada </u>\nmsaada wa kuzielewa hizi option bonyeza <b>/maelezo</b>`
+            let finaText = txt + `<b>🔥 Total Odds: ${odds}</b>\n\n▬▬▬▬▬▬▬▬▬▬▬▬\n\nOption hizi zinapatikana Gal Sport Betting, kama bado huna account,\n\n<b>👤 Jisajili Hapa (TZ 🇹🇿 & UG 🇺🇬)</b>\n<a href="${gsb}">https://m.gsb.co.tz/register\nhttps://m.gsb.co.tz/register</a>\n\n<b>👤 Jisajili Hapa (Kenya 🇰🇪)</b>\n<a href="${ke}">https://10bet.co.ke/register</a>\n\n<u>Msaada </u>\nmsaada wa kuzielewa hizi option bonyeza <b>/maelezo</b>`
 
             await ctx.reply(finaText, { parse_mode: 'HTML', disable_web_page_preview: true })
         }
