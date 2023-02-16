@@ -144,10 +144,11 @@ bot.command('/mkeka', async ctx => {
                 odds = (odds * m.odds).toFixed(2)
             }
 
-            let gsb = 'https://track.africabetpartners.com/visit/?bta=35468&brand=gsb'
+            let gsb = 'https://track.africabetpartners.com/visit/?bta=35468&nci=5439'
             let ke = `https://go.aff.10betafrica.com/m2iyvtvv`
+            let ug = `https://track.africabetpartners.com/visit/?bta=35468&nci=5740`
 
-            let finaText = txt + `<b>🔥 Total Odds: ${odds}</b>\n\n▬▬▬▬▬▬▬▬▬▬▬▬\n\nOption hizi zinapatikana Gal Sport Betting, kama bado huna account,\n\n<b>👤 Jisajili Hapa (TZ 🇹🇿 & UG 🇺🇬)</b>\n<a href="${gsb}">https://m.gsb.co.tz/register\nhttps://m.gsb.co.tz/register</a>\n\n---\n\n<b>👤 (KE 🇰🇪)</b>\n<a href="${ke}">https://10bet.co.ke/register</a>\n\n<u>Msaada </u>\nmsaada wa kuzielewa hizi option bonyeza <b>/maelezo</b>`
+            let finaText = txt + `<b>🔥 Total Odds: ${odds}</b>\n\n▬▬▬▬▬▬▬▬▬▬▬▬\n\nOption hizi zinapatikana Gal Sport Betting, kama bado huna account,\n\n<b>✓ Jisajili Hapa \n\n👤 (Tanzania 🇹🇿)</b>\n<a href="${gsb}">https://m.gsb.co.tz/register\nhttps://m.gsb.co.tz/register</a>\n▬\n<b>👤 (Kenya 🇰🇪)</b>\n<a href="${ke}">https://10bet.co.ke/register</a>\n▬\n<b>👤 (Uganda 🇺🇬)</b>\n<a href="${ug}">https://gsb.ug/register</a>\n\n<u>Msaada </u>\nmsaada wa kuzielewa hizi option bonyeza <b>/maelezo</b>`
 
             await ctx.reply(finaText, { parse_mode: 'HTML', disable_web_page_preview: true })
         }
