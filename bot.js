@@ -138,7 +138,7 @@ bot.command('/mkeka', async ctx => {
         let keka = await mkekaMega.find({ date: nairobi })
         let txt = `<b><u>🔥 Mkeka wa Leo [ ${nairobi} ]</u></b>\n\n\n`
         let odds = 1
-        if (keka) {
+        if (keka.length > 0) {
             for (let m of keka) {
                 txt = txt + `<i>🕔 ${m.date},  ${m.time}</i>\n⚽️ ${m.match}\n<b>✅ ${m.bet.replace(/team/g, '').replace(/1 - /g, '1-').replace(/2 - /g, '2-')}</b> <i>@${m.odds}</i> \n\n\n`
                 odds = (odds * m.odds).toFixed(2)
@@ -151,6 +151,12 @@ bot.command('/mkeka', async ctx => {
             let finaText = txt + `<b>🔥 Total Odds: ${odds}</b>\n\n▬▬▬▬▬▬▬▬▬▬▬▬\n\nOption hizi zinapatikana Gal Sport Betting, kama bado huna account,\n\n<b>✓ Jisajili Hapa \n\n👤 (Tanzania 🇹🇿)</b>\n<a href="${gsb}">https://m.gsb.co.tz/register\nhttps://m.gsb.co.tz/register</a>\n▬\n<b>👤 (Kenya 🇰🇪)</b>\n<a href="${ke}">https://10bet.co.ke/register</a>\n▬\n<b>👤 (Uganda 🇺🇬)</b>\n<a href="${ug}">https://gsb.ug/register</a>\n\n<u>Msaada </u>\nmsaada wa kuzielewa hizi option bonyeza <b>/maelezo</b>`
 
             await ctx.reply(finaText, { parse_mode: 'HTML', disable_web_page_preview: true })
+        } else {
+            await ctx.sendChatAction('typing')
+            setTimeout(()=> {
+                ctx.reply('Mkeka wa leo bado sijauandaa... ndo niko kwenye maandalizi hadi baadae kidogo utakuwa tayari.')
+                .catch(e=> console.log(e.message))
+            }, 1000)
         }
     } catch (err) {
         await bot.telegram.sendMessage(imp.shemdoe, err.message)
