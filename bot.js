@@ -140,7 +140,7 @@ bot.command(['mkeka', 'mkeka1'], async ctx=> {
         let mk = await tg_slips.findOne({siku: td, brand: 'gsb'})
         if(mk) {
             await ctx.sendChatAction('upload_photo')
-            await delay(2000)
+            await delay(1000)
             await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid)
         } else {
             await ctx.sendChatAction('typing')
@@ -160,7 +160,7 @@ bot.command('mkeka2', async ctx=> {
         let mk = await tg_slips.findOne({siku: td, brand: 'meridian'})
         if(mk) {
             await ctx.sendChatAction('upload_photo')
-            await delay(2000)
+            await delay(1000)
             await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid)
         } else {
             await ctx.sendChatAction('typing')
