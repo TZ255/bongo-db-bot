@@ -5,6 +5,7 @@ const my_channels_db = require('./database/my_channels')
 const mkekadb = require('./database/mkeka')
 const vidb = require('./database/db')
 const mkekaMega = require('./database/mkeka-mega')
+const tg_slips = require('./database/tg_slips')
 const mongoose = require('mongoose')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
@@ -30,6 +31,7 @@ const imp = {
     xzone: -1001740624527,
     ohmyDB: -1001586042518,
     xbongo: -1001263624837,
+    mikekaDB: -1001696592315,
     mylove: -1001748858805
 }
 
@@ -51,10 +53,10 @@ async function create(bot, ctx, type) {
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 
-bot.start(async ctx => {
+bot.command(['start', 'help', '/stop'], async ctx => {
     try {
         let typ = 'start command'
-        await ctx.reply('Hello karibu, tumia hii command: \n\n/mkeka - kupata mkeka wa leo.\n\nBonyeza <b>Menu</b> hapo chini kwa commands zingine.', { parse_mode: 'HTML' })
+        await bot.telegram.copyMessage(ctx.chat.id, imp.pzone, 7653)
         create(bot, ctx, typ)
     } catch (err) {
         console.log(err.message)
@@ -132,7 +134,47 @@ bot.command('/convo', async ctx => {
 
 })
 
-bot.command('/mkeka', async ctx => {
+bot.command(['mkeka', 'mkeka1'], async ctx=> {
+    try {
+        let td = new Date().toLocaleDateString('en-GB', {timeZone: 'Africa/Nairobi'})
+        let mk = await tg_slips.findOne({siku: td, brand: 'gsb'})
+        if(mk) {
+            await ctx.sendChatAction('upload_photo')
+            await delay(2000)
+            await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid)
+        } else {
+            await ctx.sendChatAction('typing')
+            await delay(2000)
+            await ctx.reply('Subiri kidogo, bado tunaandaa mikeka ya leo.')
+        }
+    } catch (err) {
+        console.log(err)
+        await bot.telegram.sendMessage(imp.shemdoe, err.message)
+        .catch(e => console.log(e.message))
+    }
+})
+
+bot.command('mkeka2', async ctx=> {
+    try {
+        let td = new Date().toLocaleDateString('en-GB', {timeZone: 'Africa/Nairobi'})
+        let mk = await tg_slips.findOne({siku: td, brand: 'meridian'})
+        if(mk) {
+            await ctx.sendChatAction('upload_photo')
+            await delay(2000)
+            await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid)
+        } else {
+            await ctx.sendChatAction('typing')
+            await delay(2000)
+            await ctx.reply('Subiri kidogo, bado tunaandaa mikeka ya leo.')
+        }
+    } catch (err) {
+        console.log(err)
+        await bot.telegram.sendMessage(imp.shemdoe, err.message)
+        .catch(e => console.log(e.message))
+    }
+})
+
+bot.command('/mkeka3', async ctx => {
     try {
         let nairobi = new Date().toLocaleDateString('en-GB', { timeZone: 'Africa/Nairobi' })
         let keka = await mkekaMega.find({ date: nairobi })
@@ -153,9 +195,9 @@ bot.command('/mkeka', async ctx => {
             await ctx.reply(finaText, { parse_mode: 'HTML', disable_web_page_preview: true })
         } else {
             await ctx.sendChatAction('typing')
-            setTimeout(()=> {
+            setTimeout(() => {
                 ctx.reply('Mkeka wa leo bado sijauandaa... ndo niko kwenye maandalizi hadi baadae kidogo utakuwa tayari.')
-                .catch(e=> console.log(e.message))
+                    .catch(e => console.log(e.message))
             }, 1000)
         }
     } catch (err) {
@@ -376,7 +418,7 @@ bot.command('send', async ctx => {
     }
 })
 
-bot.command('wakubwa', async ctx => {
+bot.command(['wakubwa', 'sodoma', 'sex', 'wadogo'], async ctx => {
     try {
         let idadi = await vidb.countDocuments()
         let rand = Math.floor(Math.random() * idadi)
