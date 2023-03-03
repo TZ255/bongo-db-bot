@@ -344,6 +344,14 @@ bot.command('/kudeposit', async ctx=> {
     }
 })
 
+bot.command(['jisajili_m', 'deposit_m'], async ctx => {
+    try {
+        await bot.telegram.copyMessage(ctx.chat.id, imp.pzone, 7652)
+    } catch (err) {
+        console.log(err.message)
+    }
+})
+
 bot.command('stats', async ctx => {
     try {
         let nyumbusH = await nyumbuModel.countDocuments({refferer: "Helen"})
