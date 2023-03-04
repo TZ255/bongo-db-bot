@@ -70,7 +70,7 @@ bot.command('/broadcast', async ctx => {
     let msg_id = Number(txt.split('/broadcast-')[1].trim())
     if (myId == imp.shemdoe || myId == imp.halot) {
         try {
-            let all_users = await nyumbuModel.find({refferer: "Helen"})
+            let all_users = await nyumbuModel.find({ refferer: "Helen" })
 
             all_users.forEach((u, index) => {
                 setTimeout(() => {
@@ -108,7 +108,7 @@ bot.command('/convo', async ctx => {
     let msg_id = Number(txt.split('/convo-')[1].trim())
     if (myId == imp.shemdoe || myId == imp.halot) {
         try {
-            let all_users = await nyumbuModel.find({refferer: "Helen"})
+            let all_users = await nyumbuModel.find({ refferer: "Helen" })
 
             all_users.forEach((u, index) => {
                 if (u.blocked != true) {
@@ -134,11 +134,11 @@ bot.command('/convo', async ctx => {
 
 })
 
-bot.command(['mkeka', 'mkeka1'], async ctx=> {
+bot.command(['mkeka', 'mkeka1'], async ctx => {
     try {
-        let td = new Date().toLocaleDateString('en-GB', {timeZone: 'Africa/Nairobi'})
-        let mk = await tg_slips.findOne({siku: td, brand: 'gsb'})
-        if(mk) {
+        let td = new Date().toLocaleDateString('en-GB', { timeZone: 'Africa/Nairobi' })
+        let mk = await tg_slips.findOne({ siku: td, brand: 'gsb' })
+        if (mk) {
             await ctx.sendChatAction('upload_photo')
             await delay(1000)
             await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid)
@@ -150,18 +150,24 @@ bot.command(['mkeka', 'mkeka1'], async ctx=> {
     } catch (err) {
         console.log(err)
         await bot.telegram.sendMessage(imp.shemdoe, err.message)
-        .catch(e => console.log(e.message))
+            .catch(e => console.log(e.message))
     }
 })
 
-bot.command('mkeka2', async ctx=> {
+bot.command('mkeka2', async ctx => {
     try {
-        let td = new Date().toLocaleDateString('en-GB', {timeZone: 'Africa/Nairobi'})
-        let mk = await tg_slips.findOne({siku: td, brand: 'meridian'})
-        if(mk) {
+        let td = new Date().toLocaleDateString('en-GB', { timeZone: 'Africa/Nairobi' })
+        let mk = await tg_slips.findOne({ siku: td, brand: 'meridian' })
+        if (mk) {
             await ctx.sendChatAction('upload_photo')
             await delay(1000)
-            await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid)
+            await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [ {text: '💡 Msaada Betbuilder', callback_data: 'betbuilder'} ]
+                    ]
+                }
+            })
         } else {
             await ctx.sendChatAction('typing')
             await delay(2000)
@@ -170,7 +176,7 @@ bot.command('mkeka2', async ctx=> {
     } catch (err) {
         console.log(err)
         await bot.telegram.sendMessage(imp.shemdoe, err.message)
-        .catch(e => console.log(e.message))
+            .catch(e => console.log(e.message))
     }
 })
 
@@ -264,20 +270,20 @@ bot.command('/jana', async ctx => {
 
 })
 
-bot.command('maelezo', async ctx=> {
+bot.command('maelezo', async ctx => {
     await bot.telegram.copyMessage(ctx.chat.id, imp.pzone, 7567)
-    .catch((err)=> console.log(err.message))
+        .catch((err) => console.log(err.message))
 })
 
-bot.command('site', async ctx=> {
+bot.command('site', async ctx => {
     await ctx.reply(`Hello!, ukiona kimya tembelea site yangu ya mikeka \nhttps://mkekawaleo.com`, {
         reply_markup: {
             inline_keyboard: [
-                [{text: 'Fungua Hapa', url: 'http://mkekawaleo.com'}]
+                [{ text: 'Fungua Hapa', url: 'http://mkekawaleo.com' }]
             ]
         }
     })
-    .catch((err)=> console.log(err.message))
+        .catch((err) => console.log(err.message))
 })
 
 bot.command('/sll', async ctx => {
@@ -328,7 +334,7 @@ bot.command('/post_to_channels', async ctx => {
     }
 })
 
-bot.command('/kujisajili', async ctx=> {
+bot.command('/kujisajili', async ctx => {
     try {
         await bot.telegram.copyMessage(ctx.chat.id, imp.pzone, 7595)
     } catch (err) {
@@ -336,7 +342,7 @@ bot.command('/kujisajili', async ctx=> {
     }
 })
 
-bot.command('/kudeposit', async ctx=> {
+bot.command('/kudeposit', async ctx => {
     try {
         await bot.telegram.copyMessage(ctx.chat.id, imp.pzone, 7596)
     } catch (err) {
@@ -354,10 +360,26 @@ bot.command(['jisajili_m', 'deposit_m'], async ctx => {
 
 bot.command('stats', async ctx => {
     try {
-        let nyumbusH = await nyumbuModel.countDocuments({refferer: "Helen"})
-        let nyumbusR = await nyumbuModel.countDocuments({refferer: "Regina"})
+        let nyumbusH = await nyumbuModel.countDocuments({ refferer: "Helen" })
+        let nyumbusR = await nyumbuModel.countDocuments({ refferer: "Regina" })
         let jumla = nyumbusH + nyumbusR
-        await ctx.reply(`Mpaka sasa kwenye Database yetu tuna nyumbu <b>${nyumbusH.toLocaleString('en-us')}</b> wa Helen na nyumbu <b>${nyumbusR.toLocaleString('en-us')}</b> wa Regina.\n\nJumla kuu ni <b>${jumla.toLocaleString('en-us')}</b>. \n\nWote unique, kama tayari mmoja wetu kamuongeza mimi simuongezi.`, {parse_mode: 'HTML'})
+        await ctx.reply(`Mpaka sasa kwenye Database yetu tuna nyumbu <b>${nyumbusH.toLocaleString('en-us')}</b> wa Helen na nyumbu <b>${nyumbusR.toLocaleString('en-us')}</b> wa Regina.\n\nJumla kuu ni <b>${jumla.toLocaleString('en-us')}</b>. \n\nWote unique, kama tayari mmoja wetu kamuongeza mimi simuongezi.`, { parse_mode: 'HTML' })
+    } catch (err) {
+        console.log(err.message)
+    }
+})
+
+bot.command('betbuilder', async ctx => {
+    try {
+        await bot.telegram.copyMessage(ctx.chat.id, imp.pzone, 7655)
+    } catch (err) {
+        console.log(err.message)
+    }
+})
+
+bot.action('betbuilder', async ctx => {
+    try {
+        await bot.telegram.copyMessage(ctx.chat.id, imp.pzone, 7655)
     } catch (err) {
         console.log(err.message)
     }
@@ -592,10 +614,10 @@ bot.on('photo', async ctx => {
 
 
 bot.launch()
-    .then(()=> {
+    .then(() => {
         console.log('Bot is running')
         bot.telegram.sendMessage(imp.shemdoe, 'Bot restarted')
-        .catch((err)=> console.log(err.message))
+            .catch((err) => console.log(err.message))
     })
     .catch((err) => {
         console.log('Bot is not running')
