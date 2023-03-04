@@ -316,12 +316,13 @@ bot.command('copy', async ctx => {
 bot.command('/post_to_channels', async ctx => {
     let txt = ctx.message.text
     let ch_link = 'https://t.me/+804l_wD7yYgzM2Q0'
+    let pload_link = `https://t.me/regina_tzbot?start=ngono_bongo`
     let keyb = [
-        [{ text: "❌❌ VIDEO ZA KUTOMBANA HAPA ❤️", url: ch_link },],
-        [{ text: "🔥 Unganishwa Na Malaya Mikoa Yote 🔞", url: ch_link },],
-        [{ text: "🍑🍑 Magroup Ya Ngono na Madada Poa 🔞", url: ch_link },],
-        [{ text: "💋 XXX ZA BONGO ❌❌❌", url: ch_link },],
-        [{ text: "🔥🔥 Connection Za Chuo na Mastaa 🔞", url: ch_link }]
+        [{ text: "❌❌ VIDEO ZA KUTOMBANA HAPA ❤️", url: pload_link },],
+        [{ text: "🔥 Unganishwa Na Malaya Mikoa Yote 🔞", url: pload_link },],
+        [{ text: "🍑🍑 Magroup Ya Ngono na Madada Poa 🔞", url: pload_link },],
+        [{ text: "💋 XXX ZA BONGO ❌❌❌", url: pload_link },],
+        [{ text: "🔥🔥 Connection Za Chuo na Mastaa 🔞", url: pload_link }]
     ]
 
     let mid = Number(txt.split('post_to_channels=')[1])
