@@ -35,6 +35,8 @@ const imp = {
     mylove: -1001748858805
 }
 
+const mkArrs = ['mkeka', 'mkeka1', 'mkeka2', 'mkeka3', 'mikeka', 'mkeka wa leo', 'mikeka ya leo', 'mkeka namba 1', 'mkeka namba 2', 'mkeka namba 3', 'mkeka #1', 'mkeka #2', 'mkeka #3', 'mkeka no #1', 'mkeka no #2', 'mkeka no #3', 'za leo', 'naomba mkeka', 'naomba mikeka', 'naomba mkeka wa leo', 'nitumie mkeka', 'ntumie mkeka', 'nitumie mikeka ya leo', 'odds', 'odds za leo', 'odds ya leo', 'mkeka waleo', 'mkeka namba moja', 'mkeka namba mbili', 'mkeka namba tatu', 'nataka mkeka', 'nataka mikeka', 'mkeka wa uhakika', 'odds za uhakika']
+
 const gsb_ug = `https://track.africabetpartners.com/visit/?bta=35468&nci=5559`
 
 async function create(bot, ctx, type) {
@@ -562,7 +564,14 @@ bot.on('text', async ctx => {
             let username = ctx.chat.first_name
             let mid = ctx.message.message_id
 
-            await bot.telegram.sendMessage(imp.halot, `<b>${txt}</b> \n\nfrom = <code>${username}</code>\nid = <code>${userid}</code>&mid=${mid}`, { parse_mode: 'HTML', disable_notification: true })
+            //check if ni mkeka
+            if (mkArrs.includes(txt.toLowerCase())) {
+                await bot.telegram.copyMessage(userid, imp.pzone, 7664)
+            }
+            //forward to me if sio mkeka
+            else {
+                await bot.telegram.sendMessage(imp.halot, `<b>${txt}</b> \n\nfrom = <code>${username}</code>\nid = <code>${userid}</code>&mid=${mid}`, { parse_mode: 'HTML', disable_notification: true })
+            }
         }
 
     } catch (err) {
