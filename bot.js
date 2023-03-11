@@ -566,6 +566,8 @@ bot.on('text', async ctx => {
 
             //check if ni mkeka
             if (mkArrs.includes(txt.toLowerCase())) {
+                await ctx.sendChatAction('typing')
+                await delay(1000)
                 await bot.telegram.copyMessage(userid, imp.pzone, 7664)
             }
             //forward to me if sio mkeka
