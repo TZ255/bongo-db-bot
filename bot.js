@@ -147,7 +147,7 @@ bot.command(['mkeka', 'mkeka1'], async ctx => {
         } else {
             await ctx.sendChatAction('typing')
             await delay(2000)
-            await ctx.reply('Mkeka namba 1 na namba 2 bado haijaandaliwa, rudi tena badae.')
+            await ctx.reply('Mkeka namba 1 na namba 2 bado haijaandaliwa, jaribu tena badae.')
         }
     } catch (err) {
         console.log(err)
@@ -177,7 +177,7 @@ bot.command('mkeka2', async ctx => {
         } else {
             await ctx.sendChatAction('typing')
             await delay(2000)
-            await ctx.reply('Mkeka namba 1 na namba 2 bado haijaandaliwa, rudi tena badae.')
+            await ctx.reply('Mkeka namba 1 na namba 2 bado haijaandaliwa, jaribu tena badae.')
         }
     } catch (err) {
         console.log(err)
