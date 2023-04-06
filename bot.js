@@ -35,7 +35,7 @@ const imp = {
     mylove: -1001748858805
 }
 
-const mkArrs = ['mkeka', 'mkeka1', 'mkeka2', 'mkeka3', 'mikeka', 'mkeka wa leo', 'mikeka ya leo', 'mkeka namba 1', 'mkeka namba 2', 'mkeka namba 3', 'mkeka #1', 'mkeka #2', 'mkeka #3', 'mkeka no #1', 'mkeka no #2', 'mkeka no #3', 'za leo', 'naomba mkeka', 'naomba mikeka', 'naomba mkeka wa leo', 'nitumie mkeka', 'ntumie mkeka', 'nitumie mikeka ya leo', 'odds', 'odds za leo', 'odds ya leo', 'mkeka waleo', 'mkeka namba moja', 'mkeka namba mbili', 'mkeka namba tatu', 'nataka mkeka', 'nataka mikeka', 'mkeka wa uhakika', 'odds za uhakika']
+const mkArrs = ['mkeka', 'mkeka1', 'mkeka2', 'mkeka3', 'mikeka', 'mkeka wa leo', 'mikeka ya leo', 'mkeka namba 1', 'mkeka namba 2', 'mkeka namba 3', 'mkeka #1', 'mkeka #2', 'mkeka #3', 'mkeka no #1', 'mkeka no #2', 'mkeka no #3', 'za leo', 'naomba mkeka', 'naomba mikeka', 'naomba mkeka wa leo', 'nitumie mkeka', 'ntumie mkeka', 'nitumie mikeka ya leo', 'odds', 'odds za leo', 'odds ya leo', 'mkeka waleo', 'mkeka namba moja', 'mkeka namba mbili', 'mkeka namba tatu', 'nataka mkeka', 'nataka mikeka', 'mkeka wa uhakika', 'odds za uhakika', 'mkeka?', 'mkeka wa leo?', '/mkeka 1', '/mkeka 2', '/mkeka 3']
 
 const gsb_ug = `https://track.africabetpartners.com/visit/?bta=35468&nci=5559`
 
@@ -79,7 +79,7 @@ bot.command('/broadcast', async ctx => {
                     if (index == all_users.length - 1) {
                         ctx.reply('Nimemaliza kutuma offer')
                     }
-                    bot.telegram.copyMessage(u.chatid, imp.pzone, msg_id, {
+                    bot.telegram.copyMessage(u.chatid, imp.mikekaDB, msg_id, {
                         reply_markup: {
                             inline_keyboard: [
                                 [
@@ -118,7 +118,7 @@ bot.command('/convo', async ctx => {
                         if (index == all_users.length - 1) {
                             ctx.reply('Nimemaliza conversation')
                         }
-                        bot.telegram.copyMessage(u.chatid, imp.pzone, msg_id)
+                        bot.telegram.copyMessage(u.chatid, imp.mikekaDB, msg_id)
                             .then(() => console.log('convo sent to ' + u.chatid))
                             .catch((err) => {
                                 if (err.message.includes('blocked') || err.message.includes('initiate')) {
