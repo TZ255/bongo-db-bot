@@ -68,11 +68,12 @@ bot.command(['start', 'help', '/stop'], async ctx => {
 
 bot.command('supatips', async ctx=> {
     try {
+        let url = `http://mkekawaleo.com/#supa-za-leo`
         await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, 255, {
             reply_markup: {
                 inline_keyboard: [
                     [
-                        { text: '⭐⭐⭐ Fungua SupaTips ⭐⭐⭐'}
+                        { text: '⭐⭐⭐ Fungua SupaTips ⭐⭐⭐', url}
                     ]
                 ]
             }
