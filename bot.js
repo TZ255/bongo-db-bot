@@ -8,6 +8,8 @@ const mkekaMega = require('./database/mkeka-mega')
 const tg_slips = require('./database/tg_slips')
 const mongoose = require('mongoose')
 
+const call_sendMikeka_functions = require('./fns/mkeka-1-2-3')
+
 const bot = new Telegraf(process.env.BOT_TOKEN)
     .catch((err) => console.log(err.message))
 
@@ -51,6 +53,21 @@ async function create(bot, ctx, type) {
     }
 }
 
+let defaultReplyMkp = {
+    keyboard: [
+        [
+            { text: "🔥 MKEKA #1" },
+            { text: "💰 MKEKA #2" },
+        ],
+        [
+            { text: "🤑 MKEKA #3" },
+            { text: "👑 SUPATIPS" },
+        ]
+    ],
+    is_persistent: true,
+    resize_keyboard: true
+}
+
 //delaying
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -58,7 +75,9 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 bot.command(['start', 'help', '/stop'], async ctx => {
     try {
         let typ = 'start command'
-        await bot.telegram.copyMessage(ctx.chat.id, imp.pzone, 7653)
+        await bot.telegram.copyMessage(ctx.chat.id, imp.pzone, 7653, {
+            reply_markup: defaultReplyMkp
+        })
         create(bot, ctx, typ)
     } catch (err) {
         console.log(err.message)
@@ -135,7 +154,7 @@ bot.command('/convo', async ctx => {
                         if (index == all_users.length - 1) {
                             ctx.reply('Nimemaliza conversation')
                         }
-                        bot.telegram.copyMessage(u.chatid, imp.mikekaDB, msg_id)
+                        bot.telegram.copyMessage(u.chatid, imp.mikekaDB, msg_id, {reply_markup: defaultReplyMkp})
                             .then(() => console.log('convo sent to ' + u.chatid))
                             .catch((err) => {
                                 if (err.message.includes('blocked') || err.message.includes('initiate')) {
@@ -155,17 +174,7 @@ bot.command('/convo', async ctx => {
 
 bot.command(['mkeka', 'mkeka1'], async ctx => {
     try {
-        let td = new Date().toLocaleDateString('en-GB', { timeZone: 'Africa/Nairobi' })
-        let mk = await tg_slips.findOne({ siku: td, brand: 'gsb' })
-        if (mk) {
-            await ctx.sendChatAction('upload_photo')
-            await delay(1000)
-            await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid)
-        } else {
-            await ctx.sendChatAction('typing')
-            await delay(2000)
-            await ctx.reply('Mkeka namba 1 bado haujaandaliwa, jaribu mkeka namba 3 /mkeka3')
-        }
+        await call_sendMikeka_functions.sendMkeka1(ctx, delay, bot, imp)
     } catch (err) {
         console.log(err)
         await bot.telegram.sendMessage(imp.shemdoe, err.message)
@@ -175,27 +184,7 @@ bot.command(['mkeka', 'mkeka1'], async ctx => {
 
 bot.command('mkeka2', async ctx => {
     try {
-        let td = new Date().toLocaleDateString('en-GB', { timeZone: 'Africa/Nairobi' })
-        let mk = await tg_slips.findOne({ siku: td, brand: 'meridian' })
-        if (mk) {
-            await ctx.sendChatAction('upload_photo')
-            await delay(1000)
-            await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid, {
-                reply_markup: {
-                    inline_keyboard: [
-                        [{ text: '💡 Msaada Kubet Betbuilder', callback_data: 'betbuilder' }],
-                        [
-                            { text: '💡 Kujisajili', callback_data: 'jisajili_m' },
-                            { text: '💡 Kudeposit', callback_data: 'deposit_m' }
-                        ]
-                    ]
-                }
-            })
-        } else {
-            await ctx.sendChatAction('typing')
-            await delay(2000)
-            await ctx.reply('Mkeka namba 2 bado haujaandaliwa, jaribu mkeka namba 3 /mkeka3')
-        }
+        await call_sendMikeka_functions.sendMkeka2(ctx, delay, bot, imp)
     } catch (err) {
         console.log(err)
         await bot.telegram.sendMessage(imp.shemdoe, err.message)
@@ -205,30 +194,7 @@ bot.command('mkeka2', async ctx => {
 
 bot.command('/mkeka3', async ctx => {
     try {
-        let nairobi = new Date().toLocaleDateString('en-GB', { timeZone: 'Africa/Nairobi' })
-        let keka = await mkekaMega.find({ date: nairobi })
-        let txt = `<b><u>🔥 Mkeka wa Leo [ ${nairobi} ]</u></b>\n\n\n`
-        let odds = 1
-        if (keka.length > 0) {
-            for (let m of keka) {
-                txt = txt + `<i>🕔 ${m.date},  ${m.time}</i>\n⚽️ ${m.match}\n<b>✅ ${m.bet.replace(/team/g, '').replace(/1 - /g, '1-').replace(/2 - /g, '2-')}</b> <i>@${m.odds}</i> \n\n\n`
-                odds = (odds * m.odds).toFixed(2)
-            }
-
-            let gsb = 'https://track.africabetpartners.com/visit/?bta=35468&nci=5439'
-            let ke = `https://go.aff.10betafrica.com/m2iyvtvv`
-            let ug = `https://track.africabetpartners.com/visit/?bta=35468&nci=5740`
-
-            let finaText = txt + `<b>🔥 Total Odds: ${odds}</b>\n\n▬▬▬▬▬▬▬▬▬▬▬▬\n\nOption hizi zinapatikana Gal Sport Betting, kama bado huna account,\n\n<b>✓ Jisajili Hapa \n\n👤 (Tanzania 🇹🇿)</b>\n<a href="${gsb}">https://m.gsb.co.tz/register\nhttps://m.gsb.co.tz/register</a>\n▬\n<b>👤 (Kenya 🇰🇪)</b>\n<a href="${ke}">https://10bet.co.ke/register</a>\n▬\n<b>👤 (Uganda 🇺🇬)</b>\n<a href="${ug}">https://gsb.ug/register</a>\n\n<u>Msaada </u>\nmsaada wa kuzielewa hizi option bonyeza <b>/maelezo</b>`
-
-            await ctx.reply(finaText, { parse_mode: 'HTML', disable_web_page_preview: true })
-        } else {
-            await ctx.sendChatAction('typing')
-            setTimeout(() => {
-                ctx.reply('Mkeka wa leo bado sijauandaa... ndo niko kwenye maandalizi hadi baadae kidogo utakuwa tayari.')
-                    .catch(e => console.log(e.message))
-            }, 1000)
-        }
+        await call_sendMikeka_functions.sendMkeka3(ctx, delay, bot, imp)
     } catch (err) {
         await bot.telegram.sendMessage(imp.shemdoe, err.message)
             .catch((e) => console.log(e.message))
@@ -586,6 +552,18 @@ bot.on('text', async ctx => {
                 await ctx.sendChatAction('typing')
                 await delay(1000)
                 await bot.telegram.copyMessage(userid, imp.pzone, 7664)
+            } else if(txt == '🔥 MKEKA #1') {
+                await call_sendMikeka_functions.sendMkeka1(ctx, delay, bot, imp)
+                await ctx.deleteMessage(mid)
+            } else if(txt == '💰 MKEKA #2') {
+                await call_sendMikeka_functions.sendMkeka2(ctx, delay, bot, imp)
+                await ctx.deleteMessage(mid)
+            } else if(txt == '🤑 MKEKA #3') {
+                await call_sendMikeka_functions.sendMkeka3(ctx, delay, bot, imp)
+                await ctx.deleteMessage(mid)
+            } else if(txt == '👑 SUPATIPS') {
+                await call_sendMikeka_functions.supatips(ctx, bot, delay, imp)
+                await ctx.deleteMessage(mid)
             }
             //forward to me if sio mkeka
             else {
