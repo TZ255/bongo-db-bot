@@ -22,21 +22,11 @@ const sendMkeka1 = async (ctx, delay, bot, imp) => {
 const sendMkeka2 = async (ctx, delay, bot, imp) => {
     try {
         let td = new Date().toLocaleDateString('en-GB', { timeZone: 'Africa/Nairobi' })
-        let mk = await tg_slips.findOne({ siku: td, brand: 'meridian' })
+        let mk = await tg_slips.findOne({ siku: td, brand: 'betway' })
         if (mk) {
             await ctx.sendChatAction('upload_photo')
             await delay(1000)
-            await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid, {
-                reply_markup: {
-                    inline_keyboard: [
-                        [{ text: '💡 Msaada Kubet Betbuilder', callback_data: 'betbuilder' }],
-                        [
-                            { text: '💡 Kujisajili', callback_data: 'jisajili_m' },
-                            { text: '💡 Kudeposit', callback_data: 'deposit_m' }
-                        ]
-                    ]
-                }
-            })
+            await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid)
         } else {
             await ctx.sendChatAction('typing')
             await delay(2000)
