@@ -39,6 +39,8 @@ const sendMkeka2 = async (ctx, delay, bot, imp) => {
 
 const sendMkeka3 = async (ctx, delay, bot, imp) => {
     try {
+        await ctx.sendChatAction('typing')
+        await delay(1000)
         let nairobi = new Date().toLocaleDateString('en-GB', { timeZone: 'Africa/Nairobi' })
         let keka = await mkekaMega.find({ date: nairobi })
         let txt = `<b><u>🔥 Mkeka wa Leo [ ${nairobi} ]</u></b>\n\n\n`

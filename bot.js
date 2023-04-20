@@ -554,16 +554,12 @@ bot.on('text', async ctx => {
                 await bot.telegram.copyMessage(userid, imp.pzone, 7664)
             } else if(txt == '🔥 MKEKA #1') {
                 await call_sendMikeka_functions.sendMkeka1(ctx, delay, bot, imp)
-                await ctx.deleteMessage(mid)
             } else if(txt == '💰 MKEKA #2') {
                 await call_sendMikeka_functions.sendMkeka2(ctx, delay, bot, imp)
-                await ctx.deleteMessage(mid)
             } else if(txt == '🤑 MKEKA #3') {
                 await call_sendMikeka_functions.sendMkeka3(ctx, delay, bot, imp)
-                await ctx.deleteMessage(mid)
             } else if(txt == '👑 SUPATIPS') {
                 await call_sendMikeka_functions.supatips(ctx, bot, delay, imp)
-                await ctx.deleteMessage(mid)
             }
             //forward to me if sio mkeka
             else {
