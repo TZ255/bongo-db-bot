@@ -52,7 +52,7 @@ const sendMkeka3 = async (ctx, delay, bot, imp) => {
             }
 
             let gsb = 'https://track.africabetpartners.com/visit/?bta=35468&nci=5439'
-            let pm = `https://pmaff.com/?serial=61291818&creative_id=324&anid=tg&pid=tg`
+            let pm = `https://pmaff.com/?serial=61291818&creative_id=304&anid=telegram&pid=telegram`
             let ke = `https://go.aff.10betafrica.com/m2iyvtvv`
             let ug = `https://track.africabetpartners.com/visit/?bta=35468&nci=5740`
 
