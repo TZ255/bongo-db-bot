@@ -49,10 +49,10 @@ const sendMkeka3 = async (ctx, delay, bot, imp) => {
             for (let m of keka) {
                 //changing parimatch options
                 if (m.bet == 'Goal. From 1 to 15 minute: (NO)') {
-                    txt = txt + `<u><i>${m.date},  ${m.time}</i></u>\n⚽️ ${m.match}\n<b>✅ FT 10 minutes 1X2: (X)</b>\n<i>💰 Odds: 1.15</i> \n\n\n`
+                    txt = txt + `<u><i>${m.date},  ${m.time}</i></u>\n⚽️ ${m.match}\n<b>✅ First 10 minutes 1X2: (X)</b>\n<i>💰 Odds: 1.15</i> \n\n\n`
                     odds = (odds * 1.15).toFixed(2)
                 } else {
-                    txt = txt + `<u><i>${m.date},  ${m.time}</i></u>\n⚽️ ${m.match}\n<b>✅ ${m.bet.replace(/team/g, '').replace(/1 - /g, '1-').replace(/2 - /g, '2-')}</b>\n<i>💰 Odds: ${m.odds}</i> \n\n\n`
+                    txt = txt + `<u><i>${m.date},  ${m.time}</i></u>\n⚽️ ${m.match}\n<b>✅ ${m.bet}</b>\n<i>💰 Odds: ${m.odds}</i> \n\n\n`
                     odds = (odds * m.odds).toFixed(2)
                 }
             }
