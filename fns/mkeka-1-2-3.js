@@ -47,16 +47,23 @@ const sendMkeka3 = async (ctx, delay, bot, imp) => {
         let odds = 1
         if (keka.length > 0) {
             for (let m of keka) {
-                txt = txt + `<u><i>${m.date},  ${m.time}</i></u>\n⚽️ ${m.match}\n<b>✅ ${m.bet.replace(/team/g, '').replace(/1 - /g, '1-').replace(/2 - /g, '2-')}</b>\n<i>💰 Odds: ${m.odds}</i> \n\n\n`
-                odds = (odds * m.odds).toFixed(2)
+                //changing parimatch options
+                if (m.bet == 'Goal. From 1 to 15 minute: (NO)') {
+                    txt = txt + `<u><i>${m.date},  ${m.time}</i></u>\n⚽️ ${m.match}\n<b>✅ FT 10 minutes 1X2: (X)</b>\n<i>💰 Odds: 1.15</i> \n\n\n`
+                    odds = (odds * 1.15).toFixed(2)
+                } else {
+                    txt = txt + `<u><i>${m.date},  ${m.time}</i></u>\n⚽️ ${m.match}\n<b>✅ ${m.bet.replace(/team/g, '').replace(/1 - /g, '1-').replace(/2 - /g, '2-')}</b>\n<i>💰 Odds: ${m.odds}</i> \n\n\n`
+                    odds = (odds * m.odds).toFixed(2)
+                }
             }
 
             let gsb = 'https://track.africabetpartners.com/visit/?bta=35468&nci=5439'
             let pm = `https://pmaff.com/?serial=61291818&creative_id=304&anid=telegram&pid=telegram`
-            let ke = `https://go.aff.10betafrica.com/m2iyvtvv`
+            let tenbet = `https://go.aff.10betafrica.com/ys6tiwg4?utm_source=telegram`
+            let ke = `https://www.betway.co.ke/?btag=P94949-PR24943-CM78241-TS1971458&`
             let ug = `https://track.africabetpartners.com/visit/?bta=35468&nci=5740`
 
-            let finaText = txt + `<b>🔥 Total Odds: ${odds}</b>\n\n▬▬▬▬▬▬▬▬▬▬▬▬\n\nMkeka huu umeandaliwa Parimatch, kama bado huna account,\n\n<b>✓ Jisajili Hapa \n\n👤 (Tanzania 🇹🇿)</b>\n<a href="${pm}">https://parimatch.co.tz/register\nhttps://parimatch.co.tz/register</a>\n▬\n<b>👤 (Kenya 🇰🇪)</b>\n<a href="${ke}">https://10bet.co.ke/register</a>\n▬\n<b>👤 (Uganda 🇺🇬)</b>\n<a href="${ug}">https://gsb.ug/register</a>\n\n<u>Msaada </u>\nmsaada wa kuzielewa hizi option bonyeza <b>/maelezo</b>`
+            let finaText = txt + `<b>🔥 Total Odds: ${odds}</b>\n\n▬▬▬▬▬▬▬▬▬▬▬▬\n\nMkeka huu umeandaliwa 10Bet Tanzania na BetWay Kenya, kama bado huna account,\n\n<b>✓ Jisajili Hapa \n\n👤 (Tanzania 🇹🇿)</b>\n<a href="${tenbet}">https://10bet.co.tz/register\nhttps://10bet.co.tz/register</a>\n▬\n<b>👤 (Kenya 🇰🇪)</b>\n<a href="${ke}">https://betway.co.ke/register</a>\n▬\n<b>👤 (Uganda 🇺🇬)</b>\n<a href="${ug}">https://gsb.ug/register</a>\n\n<u>Msaada </u>\nmsaada wa kuzielewa hizi option bonyeza <b>/maelezo</b>`
 
             await ctx.reply(finaText, { parse_mode: 'HTML', disable_web_page_preview: true })
         } else {
