@@ -58,12 +58,12 @@ const sendMkeka3 = async (ctx, delay, bot, imp) => {
             }
 
             let gsb = 'https://track.africabetpartners.com/visit/?bta=35468&nci=5439'
-            let pm = `https://pmaff.com/?serial=61291818&creative_id=304&anid=telegram&pid=telegram`
+            let pm = `https://pmaff.com/?serial=61291818&creative_id=1788`
             let tenbet = `https://go.aff.10betafrica.com/ys6tiwg4?utm_source=telegram`
             let ke = `https://www.betway.co.ke/?btag=P94949-PR24943-CM78241-TS1971458&`
             let ug = `https://track.africabetpartners.com/visit/?bta=35468&nci=5740`
 
-            let finaText = txt + `<b>🔥 Total Odds: ${odds}</b>\n\n▬▬▬▬▬▬▬▬▬▬▬▬\n\nMkeka huu umeandaliwa 10Bet\n\n<i>» Ofa ya 150% mara tatu mfululizo kila ukideposit\n» Bet Jackpot ya mechi 4\n» Rudishiwa nusu ya dau lako iwapo mechi moja itachana.</i> \n\nKama bado huna account,\n\n<b>✓ Jisajili Hapa \n\n👤 (Tanzania 🇹🇿)</b>\n<a href="${tenbet}">https://10bet.co.tz/register\nhttps://10bet.co.tz/register</a>\n▬\n<b>👤 (Kenya 🇰🇪)</b>\n<a href="${ke}">https://betway.co.ke/register</a>\n▬\n<b>👤 (Uganda 🇺🇬)</b>\n<a href="${ug}">https://gsb.ug/register</a>`
+            let finaText = txt + `<b>🔥 Total Odds: ${odds}</b>\n\n▬▬▬▬▬▬▬▬▬▬▬▬\n\nMkeka huu umeandaliwa Parimatch\n\n<i>» Ofa ya 150% ukideposit kwa mara ya kwanza\n» Uwezo wa kuedit mkeka uliokosea\n» Cash-out inapatikana muda wote.</i> \n\nKama bado huna account,\n\n<b>✓ Jisajili Hapa \n\n👤 (Tanzania 🇹🇿)</b>\n<a href="${pm}">https://parimatch.co.tz/register\nhttps://parimatch.co.tz/register</a>\n▬\n<b>👤 (Kenya 🇰🇪)</b>\n<a href="${ke}">https://betway.co.ke/register</a>\n▬\n<b>👤 (Uganda 🇺🇬)</b>\n<a href="${ug}">https://gsb.ug/register</a>`
 
             await ctx.reply(finaText, { parse_mode: 'HTML', disable_web_page_preview: true })
         } else {
