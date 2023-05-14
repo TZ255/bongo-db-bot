@@ -51,6 +51,7 @@ const sendMkeka3 = async (ctx, delay, bot, imp) => {
                 odds = (odds * m.odds).toFixed(2)
             }
 
+            let bwTZ = `https://www.betway.co.tz/?btag=P94949-PR26219-CM87071-TS1971458&`
             let gsb = 'https://track.africabetpartners.com/visit/?bta=35468&nci=5439'
             let pm = `https://pmaff.com/?serial=61291818&creative_id=1788`
             let tenbet = `https://go.aff.10betafrica.com/ys6tiwg4?utm_source=telegram`
