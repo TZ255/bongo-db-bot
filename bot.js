@@ -451,12 +451,7 @@ bot.command('send', async ctx => {
 
 bot.command(['wakubwa', 'sodoma', 'sex', 'wadogo'], async ctx => {
     try {
-        let idadi = await vidb.countDocuments()
-        let rand = Math.floor(Math.random() * idadi)
-        let vid = await vidb.findOne().skip(rand)
-        await bot.telegram.copyMessage(ctx.chat.id, imp.ohmyDB, vid.msgId, {
-            protect_content: true
-        })
+        await bot.telegram.copyMessage(ctx.chat.id, imp.pzone, 8094)
     } catch (err) {
         console.log(err.message)
     }
