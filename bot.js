@@ -56,15 +56,7 @@ async function create(bot, ctx, type) {
 let defaultReplyMkp = {
     keyboard: [
         [
-            { text: "🔥 MKEKA #1" },
-            { text: "💰 MKEKA #2" },
-        ],
-        [
-            { text: "🤑 MKEKA #3" },
-            { text: "👑 SUPATIPS" },
-        ],
-        [
-            {text: "💡 MSAADA GAL SPORT 💡"}
+            { text: "🔥 MIKEKA YA UHAKIKA LEO 💰" }
         ]
     ],
     is_persistent: true,
@@ -560,8 +552,10 @@ bot.on('text', async ctx => {
                 await call_sendMikeka_functions.supatips(ctx, bot, delay, imp)
             }
             else if(txt == '💡 MSAADA GAL SPORT 💡') {
-                await delay(500)
                 await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, 481)
+            }
+            else if(txt == '🔥 MIKEKA YA UHAKIKA LEO 💰') {
+                await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, 592)
             }
             //forward to me if sio mkeka
             else {
