@@ -382,6 +382,14 @@ bot.on('channel_post', async ctx => {
     let txt = ctx.channelPost.text
     let txtid = ctx.channelPost.message_id
 
+    let keyb = [
+        [{ text: "❌❌ VIDEO ZA KUTOMBANA HAPA ❤️", url: pload_link },],
+        [{ text: "🔥 Unganishwa Na Malaya Mikoa Yote 🔞", url: pload_link },],
+        [{ text: "🍑🍑 Magroup Ya Ngono na Madada Poa 🔞", url: pload_link },],
+        [{ text: "💋 XXX ZA BONGO ❌❌❌", url: pload_link },],
+        [{ text: "🔥🔥 Connection Za Chuo na Mastaa 🔞", url: pload_link }]
+    ]
+
     try {
         if (ctx.channelPost.text) {
             if (txt.toLowerCase().includes('add me')) {
@@ -397,6 +405,9 @@ bot.on('channel_post', async ctx => {
                         bot.telegram.deleteMessage(ch_id, uj.message_id)
                             .catch((err) => console.log(err))
                     }, 1000)
+                    await bot.telegram.copyMessage(ch_id, imp.pzone, 8176, {
+                        reply_markup: {inline_keyboard: keyb}
+                    })
                 } else {
                     let already = await ctx.reply('Channel Already existed')
                     setTimeout(() => {
@@ -448,43 +459,6 @@ bot.command(['wakubwa', 'sodoma', 'sex', 'wadogo'], async ctx => {
         console.log(err.message)
     }
 })
-
-//leave this for Regina
-// bot.on('chat_join_request', async ctx => {
-//     try {
-
-//         let username = ctx.chatJoinRequest.from.first_name
-//         let chatid = ctx.chatJoinRequest.from.id
-//         let cha_id = ctx.chatJoinRequest.user_chat_id //new update
-//         let title = ctx.chatJoinRequest.chat.title
-//         let info = await bot.telegram.getChat(cha_id)
-//         let invite_link = info.invite_link
-
-//         let nyumbu = await nyumbuModel.findOne({ chatid })
-//         if (!nyumbu) {
-//             await nyumbuModel.create({ chatid, username, blocked: false, refferer: "Helen" })
-//         }
-//         await bot.telegram.approveChatJoinRequest(cha_id, chatid)
-//         await bot.telegram.sendMessage(chatid, `Hi <b>${username}</b> \nHongera 🎉 ombi lako la kujiunga na channel yetu <b>${title}</b> limekubaliwa, karibu sana.`, {
-//             parse_mode: 'HTML',
-//             reply_markup: {
-//                 inline_keyboard: [[{ text: 'Ingia sasa', url: invite_link }]]
-//             }
-//         })
-
-//     } catch (err) {
-//         console.log(err)
-//         if (!err.message) {
-//             if (!err.description.includes('bot was blocked') && !err.description.includes('USER_ALREADY')) {
-//                 await bot.telegram.sendMessage(imp.shemdoe, err.description)
-//             }
-//         } else {
-//             if (!err.message.includes('bot was blocked') && !err.message.includes('USER_ALREADY')) {
-//                 await bot.telegram.sendMessage(imp.shemdoe, err.message)
-//             }
-//         }
-//     }
-// })
 
 bot.on('text', async ctx => {
     try {
