@@ -1,17 +1,18 @@
 const tg_slips = require('../database/tg_slips')
 const mkekaMega = require('../database/mkeka-mega')
+const waombajiModel = require('../database/waombaji')
 
 const sendMkeka1 = async (ctx, delay, bot, imp) => {
     try {
         let td = new Date().toLocaleDateString('en-GB', { timeZone: 'Africa/Nairobi' })
         let mk = await tg_slips.findOne({ siku: td, brand: 'gsb' })
+        await waombajiModel.findOneAndUpdate({pid: 'shemdoe'}, {$inc: {mk1: 1}})
         if (mk) {
             await ctx.sendChatAction('upload_photo')
-            await delay(1000)
             await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid)
         } else {
             await ctx.sendChatAction('typing')
-            await delay(2000)
+            await delay(1000)
             await ctx.reply('Mkeka namba 1 bado haujaandaliwa, jaribu mkeka namba 3 /mkeka3')
         }
     } catch (error) {
@@ -23,14 +24,14 @@ const sendMkeka2 = async (ctx, delay, bot, imp) => {
     try {
         let td = new Date().toLocaleDateString('en-GB', { timeZone: 'Africa/Nairobi' })
         let mk = await tg_slips.findOne({ siku: td, brand: 'betway' })
+        await waombajiModel.findOneAndUpdate({pid: 'shemdoe'}, {$inc: {mk2: 1}})
         if (mk) {
             await ctx.sendChatAction('upload_photo')
-            await delay(1000)
             await bot.telegram.copyMessage(ctx.chat.id, imp.mikekaDB, mk.mid)
         } else {
             await ctx.sendChatAction('typing')
-            await delay(2000)
-            await ctx.reply('Mkeka namba 2 bado haujaandaliwa, jaribu mkeka namba 3 /mkeka3')
+            await delay(1000)
+            await ctx.reply('Mkeka namba 2 bado haujaandaliwa, jaribu:\n▷ Mkeka namba 1 👉 /mkeka1\n\n▷ Mkeka namba 3 👉 /mkeka3')
         }
     } catch (error) {
         console.log(error.message)
@@ -43,6 +44,7 @@ const sendMkeka3 = async (ctx, delay, bot, imp) => {
         await delay(1000)
         let nairobi = new Date().toLocaleDateString('en-GB', { timeZone: 'Africa/Nairobi' })
         let keka = await mkekaMega.find({ date: nairobi })
+        await waombajiModel.findOneAndUpdate({pid: 'shemdoe'}, {$inc: {mk3: 1}})
         let txt = `<b><u>🔥 Mkeka wa Leo [ ${nairobi} ]</u></b>\n\n\n`
         let odds = 1
         if (keka.length > 0) {
