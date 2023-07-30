@@ -388,7 +388,7 @@ bot.on('channel_post', async ctx => {
     let txt = ctx.channelPost.text
     let txtid = ctx.channelPost.message_id
 
-    let pload_link = `https://t.me/regina_tzbot?start=ngono_bongo`
+    let pload_link = `https://t.me/PipyTidaBot?start=ngono_bongo`
     let keyb = [
         [{ text: "❌❌ VIDEO ZA KUTOMBANA HAPA ❤️", url: pload_link },],
         [{ text: "🔥 Unganishwa Na Malaya Mikoa Yote 🔞", url: pload_link },],
