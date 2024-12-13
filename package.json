@@ -5,7 +5,8 @@
   "main": "bot.js",
   "scripts": {
     "test": "nodemon bot.js",
-    "start": "node bot.js"
+    "start": "node bot.js",
+    "pm2": "pm2 start ecosystem.config.js"
   },
   "repository": {
     "type": "git",
@@ -19,14 +20,21 @@
   "homepage": "https://github.com/gshemdoe/bongo-db-bot#readme",
   "dependencies": {
     "@grammyjs/auto-retry": "^2.0.1",
+    "@grammyjs/files": "^1.1.1",
     "@grammyjs/parse-mode": "^1.10.0",
     "axios": "^1.7.2",
     "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.0.2",
+    "express": "^4.19.2",
+    "form-data": "^4.0.0",
+    "fs": "^0.0.1-security",
     "grammy": "^1.27.0",
+    "millify": "^6.1.0",
     "mongoose": "^6.6.1",
     "nodemon": "^3.1.4",
     "puppeteer": "^22.13.0",
+    "qs": "^6.12.3",
+    "sort-array": "^5.0.0",
     "telegraf": "^4.9.2"
   }
 }
