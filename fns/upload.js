@@ -4,51 +4,90 @@ const path = require('path')
 const https = require('https');
 const ffmpeg = require('fluent-ffmpeg');
 const ffmpegPath = require('ffmpeg-static');
+const { exec } = require('child_process');
+
+const execPromise = (command) => {
+    return new Promise((resolve, reject) => {
+        exec(command, (err, stdout, stderr) => {
+            if (err) {
+                reject(stderr || err.message);
+            } else {
+                resolve(stdout);
+            }
+        });
+    });
+};
 
 const uploadingDramastore = async (ctx, durl, fname, InputFile, thumb) => {
     try {
-        //starting
-        let starting = await ctx.reply('dramastore file detected and downloading... ⏳')
+        let starting = await ctx.reply('Dramastore file - downloading ⏳');
 
-        //because public folder is in root and we are in subdirectory, we go back with '..'
-        let fpath = path.join(__dirname, '..', 'public', fname)
-        let thumb_path = path.join(__dirname, '..', 'public', `${thumb}.jpeg`)
+        let fpath = path.join(__dirname, '..', 'public', fname);
+        let thumb_path = path.join(__dirname, '..', 'public', `${thumb}.jpeg`);
 
         let response = await axios.get(durl, {
             responseType: 'stream',
             httpsAgent: new https.Agent({ rejectUnauthorized: false })
-        })
+        });
 
-        //console response headers
-        console.log(response.headers)
-
-        //save file locally
-        const writer = fs.createWriteStream(fpath)
-
-        //pipe the file
+        const writer = fs.createWriteStream(fpath);
         response.data.pipe(writer);
 
         writer.on('finish', async () => {
-            let finish = 'Download Finished. Now uploading...'
-            await ctx.api.editMessageText(ctx.chat.id, starting.message_id, finish)
+            let finish = 'Download Finished ✅ \nNow Uploading & Editing Metadata ⏳';
+            await ctx.api.editMessageText(ctx.chat.id, starting.message_id, finish);
 
-            // Upload the file to Telegram
-            await ctx.replyWithDocument(new InputFile(fpath), {
-                thumbnail: new InputFile(thumb_path),
-                caption: 'Uploaded by Shemdoe Bot'
-            })
-            await ctx.api.deleteMessage(ctx.chat.id, starting.message_id)
-            fs.unlinkSync(fpath);
+            const isMKV = path.extname(fname).toLowerCase() === '.mkv';
+
+            try {
+                if (isMKV) {
+                    // Step 1: Edit global container metadata
+                    await execPromise(`mkvpropedit "${fpath}" --edit info --set "title=Downloaded from DRAMASTORE.NET"`);
+                    console.log(`Container metadata updated for ${fname}`);
+
+                    // Step 2: Edit track-level metadata (video track)
+                    await execPromise(`mkvpropedit "${fpath}" --edit track:1 --set "name=Downloaded from DRAMASTORE.NET"`);
+                    console.log(`Track 1 metadata name updated for ${fname}`);
+                } else {
+                    // Fallback to ffmpeg for MP4 and others
+                    await new Promise((resolve, reject) => {
+                        ffmpeg.setFfmpegPath(ffmpegPath);
+                        ffmpeg(fpath)
+                            .outputOptions('-c', 'copy')  // Copy streams (no re-encoding)
+                            .outputOptions('-metadata', 'title=Downloaded from DRAMASTORE.NET')
+                            .saveToFile(fpath)
+                            .on('end', resolve)
+                            .on('error', (err) => {
+                                console.error('FFmpeg Error:', err);
+                                reject(err);
+                            });
+                    });
+                }
+
+                // Upload the file to Telegram
+                await ctx.replyWithDocument(new InputFile(fpath), {
+                    thumbnail: new InputFile(thumb_path),
+                    caption: fname
+                });
+
+                // Cleanup
+                await ctx.api.deleteMessage(ctx.chat.id, starting.message_id);
+                fs.unlinkSync(fpath);
+
+            } catch (error) {
+                console.error('Metadata Update Error:', error);
+                ctx.reply('Error during metadata update.').catch(e => console.log(e?.message));
+            }
         });
 
-        writer.on('error', err => {
-            console.error('Error writing the file:', err);
-            ctx.reply('Failed to download the file.');
+        writer.on('error', (err) => {
+            console.error('File Download Error:', err);
+            ctx.reply('Failed to download the file.').catch(e => console.log(e?.message));
         });
     } catch (error) {
-        await ctx.reply(error.message)
+        await ctx.reply(error.message);
     }
-}
+};
 
 const uploadingVideos = async (ctx, durl, fname, InputFile) => {
     try {
@@ -112,7 +151,7 @@ const uploadingVideos = async (ctx, durl, fname, InputFile) => {
                             resolve(vid)
                         } else {
                             ctx.reply('The file has no video stream... height and width of video will be sent with default values ie 320x180')
-                            resolve({width: 320, height: 180})
+                            resolve({ width: 320, height: 180 })
                         }
                     }
                 })
