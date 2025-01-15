@@ -38,10 +38,10 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 app.use(express.static(__dirname + '/public'))
 
 const bot = new Bot(process.env.BOT_TOKEN, {
-    client: { apiRoot: `http://188.166.85.43:8081` }
+    client: { apiRoot: process.env.API_ROOT }
 })
 
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.PASS}@nodetuts-shard-00-00.ngo9k.mongodb.net:27017,nodetuts-shard-00-01.ngo9k.mongodb.net:27017,nodetuts-shard-00-02.ngo9k.mongodb.net:27017/ohmyNew?ssl=true&replicaSet=atlas-pyxyme-shard-0&authSource=admin&retryWrites=true&w=majority`)
+mongoose.connect(process.env.DB_URI)
     .then(() => {
         console.log('Connected to the database')
     }).catch((err) => {
@@ -472,4 +472,4 @@ process.on('uncaughtException', (err) => {
         })
 })
 
-app.listen(process.env.PORT || 3000, () => console.log('connected to port 3000'))
+app.listen(3001, '127.0.0.1', () => console.log('connected to port 3001'))
