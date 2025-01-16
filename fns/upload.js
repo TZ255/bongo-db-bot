@@ -96,7 +96,7 @@ const uploadingVideos = async (ctx, durl, fname, InputFile) => {
 
         //because public folder is in root and we are in subdirectory, we go back with '..'
         let fpath = path.join(__dirname, '..', 'public', fname)
-        let thumb_path = path.join(__dirname, 'public', `${fname}_thumb.jpg`)
+        let thumb_path = path.join(__dirname, '..', 'public', `${fname}_thumb.jpg`)
 
         //video dimensions... will be modifided by ffmpeg
         let v_width = 320
