@@ -129,7 +129,6 @@ const uploadingVideos = async (ctx, durl, fname, InputFile) => {
                         timestamps: ['50%'],
                         filename: `${fname}_thumb.jpg`,
                         folder: path.dirname(thumb_path),
-                        size: '320x180'
                     });
             })
 
@@ -148,7 +147,7 @@ const uploadingVideos = async (ctx, durl, fname, InputFile) => {
                         if (vid) {
                             v_width = vid.width
                             v_height = vid.height
-                            resolve(vid)
+                            resolve({width: vid.width, height: vid.height})
                         } else {
                             ctx.reply('The file has no video stream... height and width of video will be sent with default values ie 320x180')
                             resolve({ width: 320, height: 180 })
@@ -174,7 +173,7 @@ const uploadingVideos = async (ctx, durl, fname, InputFile) => {
             ctx.reply('Failed to writing the video.');
         });
     } catch (error) {
-        await ctx.reply(error.message)
+        await ctx.reply(error.message, error)
     }
 }
 
