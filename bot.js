@@ -325,7 +325,7 @@ bot.on('channel_post', async (ctx, next) => {
     try {
         console.log('Channelpost received')
         if (ctx.channelPost?.text && !ctx.channelPost?.reply_to_message && ctx.chat.id === imp.notify_chann) {
-            console.log('It meets our criteria')
+            return console.log(ctx.channelPost.from)
             let txt = ctx.channelPost.text
             let nkiris = ['.mkv', ' | ', 'dramastore.net']
             let rand = `${Math.trunc((Math.random() * 9999999))}`
