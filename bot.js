@@ -63,7 +63,8 @@ const imp = {
     ohmyDB: -1001586042518,
     xbongo: -1001263624837,
     mikekaDB: -1001696592315,
-    mylove: -1001748858805
+    mylove: -1001748858805,
+    notify_chann: -1002079073174
 }
 
 bot.catch((err) => {
@@ -322,8 +323,8 @@ bot.command('kazi', async ctx => {
 
 bot.on('channel_post', async (ctx, next) => {
     try {
-        if (ctx.channelPost?.text && !ctx.channelPost?.reply_to_message && ctx.channelPost?.from?.is_bot) {
-            let txt = ctx.message.text
+        if (ctx.channelPost?.text && !ctx.channelPost?.reply_to_message && ctx.channelPost?.from?.is_bot && ctx.chat.id === imp.notify_chann) {
+            let txt = ctx.channelPost.text
             let nkiris = ['.mkv', ' | ', 'dramastore.net']
             let rand = `${Math.trunc((Math.random() * 9999999))}`
 
