@@ -18,7 +18,7 @@ const sortArray = require('sort-array')
 const nyumbuModel = require('./database/chats')
 const dayoModel = require('./database/dayo-users')
 const pipyModel = require('./database/pipy-users')
-const {mtproAPI} = require('./fns/proxies')
+const { mtproAPI } = require('./fns/proxies')
 
 const ffmpeg = require('fluent-ffmpeg');
 const ffmpegPath = require('ffmpeg-static');
@@ -29,7 +29,8 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 const app = express()
 
 //functions
-const { uploadingDramastore, uploadingVideos } = require('./fns/upload')
+const { uploadingDramastore, uploadingVideos } = require('./fns/upload');
+const addJob = require('./fns/jobQuee');
 
 //delaying
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
@@ -312,7 +313,7 @@ bot.command('kazi', async ctx => {
         all.forEach((u, i) => {
             setTimeout(() => {
                 bot.api.unbanChatMember(imp.xbongo, u.chatid, { only_if_banned: true })
-                    .then(() => console.log(`✅ ${u?.username} unbanned (${i+1})`))
+                    .then(() => console.log(`✅ ${u?.username} unbanned (${i + 1})`))
                     .catch(e => console.log(e?.message))
             }, i * 40) //unbanning 25 people per second!
         })
@@ -321,47 +322,34 @@ bot.command('kazi', async ctx => {
     }
 })
 
-bot.on('channel_post', async (ctx, next) => {
+bot.on('channel_post', async (ctx) => {
     try {
-        console.log('Channelpost received')
         if (ctx.channelPost?.text && !ctx.channelPost?.reply_to_message && ctx.chat.id === imp.notify_chann) {
-            return console.log(ctx.channelPost.from)
-            let txt = ctx.channelPost.text
-            let nkiris = ['.mkv', ' | ', 'dramastore.net']
-            let rand = `${Math.trunc((Math.random() * 9999999))}`
+            const txt = ctx.channelPost.text
+            const nkiris = ['.mkv', ' | ', 'dramastore.net']
 
-            //check if nkiris
             if (nkiris.every(nk => txt.includes(nk))) {
                 let [durl, fname] = txt.split(' | ')
-                //check if durl is in last, make it first
                 if (!durl.includes('https://')) {
                     durl = txt.split(' | ')[1].trim()
                     fname = txt.split(' | ')[0].trim()
                 }
-                console.log('calling upload')
-                await uploadingDramastore(ctx, durl.trim(), fname.trim(), InputFile, 'thumb')
-            }
 
-            //check if others
-            if (!txt.includes('dramastore.net') && txt.includes(' | ')) {
-                await ctx.reply('Other than dramastore detected')
-            }
+                // Immediately respond to Telegram to end request
+                let fs_res = await ctx.reply(`⏳ Queued upload for: *${fname}*`, { parse_mode: 'Markdown' })
 
-            //if videos i.e doesnt includes ' | '
-            if (!txt.includes(' | ')) {
-                let fname = `${rand}.mp4`
-                //bzzs trailers
-                if (txt.includes('prog-public')) {
-                    fname = `${rand}.mkv`
-                }
-                await uploadingVideos(ctx, txt, fname, InputFile)
+                // Queue background job
+                addJob(ctx, async () => {
+                    console.log(`🚀 Starting upload for ${fname}`)
+                    await uploadingDramastore(ctx, durl.trim(), fname.trim(), InputFile, 'thumb')
+                    await ctx.api.deleteMessage(ctx.chat.id, fs_res.message_id)
+                    console.log(`✅ Finished upload for ${fname}`)
+                })
             }
-        } else {
-            next()
         }
-    } catch (error) {
-        await ctx.reply(error.message)
-        console.error(error)
+    } catch (err) {
+        console.error('Main handler error:', err)
+        await ctx.reply(`❌ ${err.message}`)
     }
 })
 
@@ -477,7 +465,7 @@ app.get('/', (req, res) => {
     res.json({ ok: true, port: 3000 })
 })
 
-app.get('/pp/proxy', async (req, res)=> {
+app.get('/pp/proxy', async (req, res) => {
     let apis = await mtproAPI(bot)
     res.send(apis)
 })
@@ -493,7 +481,7 @@ app.get('/download/:fname', async (req, res) => {
     }
 })
 
-setInterval(() => { 
+setInterval(() => {
     //
 }, 60000 * 60 * 3) //every 3 hours
 
