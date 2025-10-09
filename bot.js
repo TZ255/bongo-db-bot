@@ -339,10 +339,9 @@ bot.on('channel_post', async (ctx) => {
                 let fs_res = await ctx.reply(`⏳ Queued upload for: *${fname}*`, { parse_mode: 'Markdown' })
 
                 // Queue background job
-                addJob(ctx, async () => {
+                addJob(fs_res.message_id, ctx, async () => {
                     console.log(`🚀 Starting upload for ${fname}`)
                     await uploadingDramastore(ctx, durl.trim(), fname.trim(), InputFile, 'thumb')
-                    await ctx.api.deleteMessage(ctx.chat.id, fs_res.message_id)
                     console.log(`✅ Finished upload for ${fname}`)
                 })
             }

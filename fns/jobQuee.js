@@ -6,7 +6,7 @@ async function runNext() {
   if (running || queue.length === 0) return
 
   running = true
-  const { fn, ctx } = queue.shift()
+  const { fn, ctx, q_msg_id } = queue.shift()
 
   try {
     await fn()
@@ -21,6 +21,7 @@ async function runNext() {
       }
     }
   } finally {
+    await ctx.api.deleteMessage(ctx.chat.id, q_msg_id).catch(e => {})
     running = false
     runNext() // continue with next queued job
   }
@@ -32,8 +33,8 @@ async function runNext() {
  * @param {Object} ctx - Telegram context for replying on error
  * @param {Function} fn - async function to execute
  */
-function addJob(ctx, fn) {
-  queue.push({ fn, ctx })
+function addJob(q_msg_id, ctx, fn) {
+  queue.push({ fn, ctx, q_msg_id })
   setImmediate(runNext) // start soon, non-blocking
 }
 
