@@ -324,7 +324,7 @@ bot.command('kazi', async ctx => {
 bot.on('channel_post', async (ctx, next) => {
     try {
         console.log('Channelpost received')
-        if (ctx.channelPost?.text && !ctx.channelPost?.reply_to_message && ctx.channelPost?.from?.is_bot && ctx.chat.id === imp.notify_chann) {
+        if (ctx.channelPost?.text && !ctx.channelPost?.reply_to_message && ctx.chat.id === imp.notify_chann) {
             console.log('It meets our criteria')
             let txt = ctx.channelPost.text
             let nkiris = ['.mkv', ' | ', 'dramastore.net']
