@@ -320,6 +320,47 @@ bot.command('kazi', async ctx => {
     }
 })
 
+bot.on('channel_post', async (ctx, next) => {
+    try {
+        if (ctx.channelPost?.text && !ctx.channelPost?.reply_to_message && ctx.channelPost?.from?.is_bot) {
+            let txt = ctx.message.text
+            let nkiris = ['.mkv', ' | ', 'dramastore.net']
+            let rand = `${Math.trunc((Math.random() * 9999999))}`
+
+            //check if nkiris
+            if (nkiris.every(nk => txt.includes(nk))) {
+                let [durl, fname] = txt.split(' | ')
+                //check if durl is in last, make it first
+                if (!durl.includes('https://')) {
+                    durl = txt.split(' | ')[1].trim()
+                    fname = txt.split(' | ')[0].trim()
+                }
+                await uploadingDramastore(ctx, durl.trim(), fname.trim(), InputFile, 'thumb')
+            }
+
+            //check if others
+            if (!txt.includes('dramastore.net') && txt.includes(' | ')) {
+                await ctx.reply('Other than dramastore detected')
+            }
+
+            //if videos i.e doesnt includes ' | '
+            if (!txt.includes(' | ')) {
+                let fname = `${rand}.mp4`
+                //bzzs trailers
+                if (txt.includes('prog-public')) {
+                    fname = `${rand}.mkv`
+                }
+                await uploadingVideos(ctx, txt, fname, InputFile)
+            }
+        } else {
+            next()
+        }
+    } catch (error) {
+        await ctx.reply(error.message)
+        console.error(error)
+    }
+})
+
 bot.on('message::url', async (ctx, next) => {
     try {
         if (ctx.message?.text && !ctx.message?.reply_to_message) {
