@@ -18,7 +18,7 @@ const sortArray = require('sort-array')
 const nyumbuModel = require('./database/chats')
 const dayoModel = require('./database/dayo-users')
 const pipyModel = require('./database/pipy-users')
-const { mtproAPI } = require('./fns/proxies')
+const {mtproAPI} = require('./fns/proxies')
 
 const ffmpeg = require('fluent-ffmpeg');
 const ffmpegPath = require('ffmpeg-static');
@@ -29,8 +29,7 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 const app = express()
 
 //functions
-const { uploadingDramastore, uploadingVideos } = require('./fns/upload');
-const addJob = require('./fns/jobQuee');
+const { uploadingDramastore, uploadingVideos } = require('./fns/upload')
 
 //delaying
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
@@ -64,8 +63,7 @@ const imp = {
     ohmyDB: -1001586042518,
     xbongo: -1001263624837,
     mikekaDB: -1001696592315,
-    mylove: -1001748858805,
-    notify_chann: -1002079073174
+    mylove: -1001748858805
 }
 
 bot.catch((err) => {
@@ -313,42 +311,12 @@ bot.command('kazi', async ctx => {
         all.forEach((u, i) => {
             setTimeout(() => {
                 bot.api.unbanChatMember(imp.xbongo, u.chatid, { only_if_banned: true })
-                    .then(() => console.log(`✅ ${u?.username} unbanned (${i + 1})`))
+                    .then(() => console.log(`✅ ${u?.username} unbanned (${i+1})`))
                     .catch(e => console.log(e?.message))
             }, i * 40) //unbanning 25 people per second!
         })
     } catch (error) {
         console.log(error?.message)
-    }
-})
-
-bot.on('channel_post', async (ctx) => {
-    try {
-        if (ctx.channelPost?.text && !ctx.channelPost?.reply_to_message && ctx.chat.id === imp.notify_chann) {
-            const txt = ctx.channelPost.text
-            const nkiris = ['.mkv', ' | ', 'dramastore.net']
-
-            if (nkiris.every(nk => txt.includes(nk))) {
-                let [durl, fname] = txt.split(' | ')
-                if (!durl.includes('https://')) {
-                    durl = txt.split(' | ')[1].trim()
-                    fname = txt.split(' | ')[0].trim()
-                }
-
-                // Immediately respond to Telegram to end request
-                let fs_res = await ctx.reply(`⏳ Queued upload for: *${fname}*`, { parse_mode: 'Markdown' })
-
-                // Queue background job
-                addJob(fs_res.message_id, ctx, async () => {
-                    console.log(`🚀 Starting upload for ${fname}`)
-                    await uploadingDramastore(ctx, durl.trim(), fname.trim(), InputFile, 'thumb')
-                    console.log(`✅ Finished upload for ${fname}`)
-                })
-            }
-        }
-    } catch (err) {
-        console.error('Main handler error:', err)
-        await ctx.reply(`❌ ${err.message}`)
     }
 })
 
@@ -464,7 +432,7 @@ app.get('/', (req, res) => {
     res.json({ ok: true, port: 3000 })
 })
 
-app.get('/pp/proxy', async (req, res) => {
+app.get('/pp/proxy', async (req, res)=> {
     let apis = await mtproAPI(bot)
     res.send(apis)
 })
@@ -480,7 +448,7 @@ app.get('/download/:fname', async (req, res) => {
     }
 })
 
-setInterval(() => {
+setInterval(() => { 
     //
 }, 60000 * 60 * 3) //every 3 hours
 
