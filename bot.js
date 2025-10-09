@@ -323,7 +323,9 @@ bot.command('kazi', async ctx => {
 
 bot.on('channel_post', async (ctx, next) => {
     try {
+        console.log('Channelpost received')
         if (ctx.channelPost?.text && !ctx.channelPost?.reply_to_message && ctx.channelPost?.from?.is_bot && ctx.chat.id === imp.notify_chann) {
+            console.log('It meets our criteria')
             let txt = ctx.channelPost.text
             let nkiris = ['.mkv', ' | ', 'dramastore.net']
             let rand = `${Math.trunc((Math.random() * 9999999))}`
@@ -336,6 +338,7 @@ bot.on('channel_post', async (ctx, next) => {
                     durl = txt.split(' | ')[1].trim()
                     fname = txt.split(' | ')[0].trim()
                 }
+                console.log('calling upload')
                 await uploadingDramastore(ctx, durl.trim(), fname.trim(), InputFile, 'thumb')
             }
 
