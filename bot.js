@@ -471,4 +471,4 @@ process.on('uncaughtException', (err) => {
         })
 })
 
-app.listen(3001, '127.0.0.1', () => console.log('connected to port 3001'))
+app.listen(process.env.PORT || 3000, () => console.log('connected to port 3000'))
