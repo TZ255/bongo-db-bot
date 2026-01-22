@@ -6,7 +6,6 @@ const axios = require('axios').default
 const cheerio = require('cheerio')
 require('dotenv').config()
 const mongoose = require('mongoose')
-const puppeteer = require('puppeteer')
 const qs = require('qs')
 const fs = require('fs')
 const path = require('path')
