@@ -16,9 +16,6 @@ RUN npm install
 # Copy the rest of the app
 COPY . .
 
-# Define volumes (optional hint, Coolify will mount actual volumes)
-VOLUME ["/app/storage", "/app/private", "/app/public"]
-
 # Expose app port (optional, depending on your app)
 EXPOSE 3000
 
